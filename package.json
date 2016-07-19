@@ -1,0 +1,22 @@
+{
+  "name": "maria-execute",
+  "version": "1.0.0",
+  "description": "Execution context for Maria, the programmable dice bot",
+  "main": "main.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/negativeview/maria-execute.git"
+  },
+  "author": "Daniel Grace",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/negativeview/maria-execute/issues"
+  },
+  "homepage": "https://github.com/negativeview/maria-execute#readme",
+  "dependencies": {
+    "async": "^2.0.0"
+  }
+}
