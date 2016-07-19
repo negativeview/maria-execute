@@ -40,6 +40,10 @@ class ExecutionContext extends EventEmitter {
 		console.log('message from child', m);
 	}
 
+	__echo(m) {
+		this.statusCB(m);
+	}
+
 	setReady() {
 		if (this.backlog.length) {
 			var toExecute = this.backlog.shift();
