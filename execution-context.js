@@ -2,6 +2,7 @@
 
 const ChildProcess = require('child_process');
 const EventEmitter = require('events');
+const ExecutionToken = require('./execution-token.js');
 
 class ExecutionContext extends EventEmitter {
 	constructor(userID, channelID, serverID) {
