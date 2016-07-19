@@ -6,6 +6,8 @@ class ExecutionContext extends EventEmitter {
 	constructor(userID, channelID, serverID) {
 		super();
 		this.ready = false;
+		this.backlog = [];
+		
 		process.nextTick(() => {
 			this.setReady();
 			this.emit('done');
