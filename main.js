@@ -47,3 +47,5 @@ class MariaExecute extends EventEmitter {
 		});
 	}
 }
+
+module.exports = MariaExecute;
