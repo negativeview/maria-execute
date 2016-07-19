@@ -14,6 +14,15 @@ class ExecutionContext extends EventEmitter {
 		this.statusCB = null;
 		this.timeStart = null;
 
+		this.createChildProcess();
+
+		process.nextTick(() => {
+			this.emit('done');
+			this.setReady();
+		});
+	}
+
+	createChildProcess() {
 		this.childProcess = ChildProcess.fork(
 			__dirname + '/child.js',
 			[],
@@ -25,11 +34,6 @@ class ExecutionContext extends EventEmitter {
 				this.handleMessage(m);
 			}
 		);
-
-		process.nextTick(() => {
-			this.emit('done');
-			this.setReady();
-		});
 	}
 
 	handleMessage(m) {
@@ -44,6 +48,13 @@ class ExecutionContext extends EventEmitter {
 
 	__echo(m) {
 		this.currentToken.emit('echo', Serialize.unserialize(m.message));
+	}
+
+	__exception(m) {
+		this.currentToken.emit('exception', m);
+		this.childProcess.kill();
+		this.createChildProcess();
+		this.setReady();
 	}
 
 	__done(m) {

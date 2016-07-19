@@ -2,7 +2,10 @@ const Context = require('./context.js');
 const vm = require('vm');
 
 process.on('uncaughtException', (err) => {
-	console.log('got uncaught exception', err);
+	process.send({
+		type: 'exception',
+		exception: err
+	});
 });
 
 process.on('message', (m) => {
