@@ -5,7 +5,7 @@ const ExecutionContext = require('./execution-context.js');
 
 class MariaExecute extends EventEmitter {
 	constructor() {
-
+		super();
 	}
 
 	/**
