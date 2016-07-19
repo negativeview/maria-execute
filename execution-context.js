@@ -1,5 +1,6 @@
 "use strict";
 
+const ChildProcess = require('child_process');
 const EventEmitter = require('events');
 
 class ExecutionContext extends EventEmitter {
@@ -7,17 +8,41 @@ class ExecutionContext extends EventEmitter {
 		super();
 		this.ready = false;
 		this.backlog = [];
-		
+		this.doneCB = null;
+		this.statusCB = null;
+
+		this.childProcess = ChildProcess.fork(
+			'./child.js',
+			[],
+			{}
+		);
+		this.childProcess.on(
+			'message',
+			(m) => {
+				this.handleMessage(m);
+			}
+		);
+
 		process.nextTick(() => {
-			this.setReady();
 			this.emit('done');
+			this.setReady();
 		});
+	}
+
+	handleMessage(m) {
+		if ('type' in m) {
+			if ('__' + m.type in this) {
+				this['__' + m.type](m);
+				return;
+			}
+		}
+		console.log('message from child', m);
 	}
 
 	setReady() {
 		if (this.backlog.length) {
 			var toExecute = this.backlog.shift();
-			this._execute(toExecute.code, toExecute.cb);
+			this._execute(toExecute.code, toExecute.doneCB, toExecute.statusCB);
 			return;
 		}
 
@@ -25,22 +50,31 @@ class ExecutionContext extends EventEmitter {
 		this.emit('ready');
 	}
 
-	execute(code, cb) {
+	execute(code, doneCB, statusCB) {
 		if (this.ready) {
 			this.ready = false;
-			this._execute(code, cb);
+			this._execute(code, doneCB, statusCB);
 		} else {
 			this.backlog.push({
 				code: code,
-				cb: cb
+				doneCB: doneCB,
+				statusCB: statusCB
 			});
 		}
 	}
 
-	_execute(code, cb) {
-		process.nextTick(() => {
-			cb('_execute not implemented');
-		});
+	_execute(code, doneCB, statusCB) {
+		var toSend = {
+			type: 'execute',
+			code: code
+		};
+
+		this.doneCB = doneCB;
+		this.statusCB = statusCB;
+
+		this.childProcess.send(
+			toSend
+		);
 	}
 }
 
