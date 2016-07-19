@@ -19,7 +19,7 @@ class MariaExecute extends EventEmitter {
 			this.doExecution(this.contexts[key], code, cb);
 		} else {
 			this.createContext(
-				userID, channelID, serverID, (errors, context) => {
+				userID, channelID, serverID, (error, context) => {
 					if (error) {
 						process.nextTick(() => {
 							return cb(error);
