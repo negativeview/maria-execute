@@ -7,10 +7,6 @@ class MariaExecute extends EventEmitter {
 	constructor() {
 		super();
 		this.contexts = {};
-
-		console.log('cwd', process.cwd());
-		console.log('env', process.env);
-		console.log('cwd2', __dirname);
 	}
 
 	/**

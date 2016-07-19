@@ -13,7 +13,7 @@ class ExecutionContext extends EventEmitter {
 		this.timeStart = null;
 
 		this.childProcess = ChildProcess.fork(
-			'child.js',
+			__dirname + '/child.js',
 			[],
 			{}
 		);
