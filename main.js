@@ -10,6 +10,7 @@ class MariaExecute extends EventEmitter {
 
 		console.log('cwd', process.cwd());
 		console.log('env', process.env);
+		console.log('cwd2', __dirname);
 	}
 
 	/**
