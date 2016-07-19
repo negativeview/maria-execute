@@ -28,5 +28,9 @@ function execute(code) {
 			timeout: 10000
 		}
 	);
-	console.log('after execution');
+	process.send(
+		{
+			type: 'done'
+		}
+	);
 }

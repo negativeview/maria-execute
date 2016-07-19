@@ -46,6 +46,11 @@ class ExecutionContext extends EventEmitter {
 		this.currentToken.emit('echo', Serialize.unserialize(m.message));
 	}
 
+	__done(m) {
+		this.currentToken.emit('done');
+		this.setReady();
+	}
+
 	setReady() {
 		if (this.backlog.length) {
 			var toExecute = this.backlog.shift();
