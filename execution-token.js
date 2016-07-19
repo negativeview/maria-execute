@@ -3,8 +3,10 @@
 const EventEmitter = require('events');
 
 class ExecutionToken extends EventEmitter {
-	constructor() {
+	constructor(code, cb) {
 		super();
+		this.code = code;
+		this.cb = cb;
 		this.timeStart = null;
 	}
 

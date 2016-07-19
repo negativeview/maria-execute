@@ -73,7 +73,7 @@ class ExecutionContext extends EventEmitter {
 		token.start();
 		var toSend = {
 			type: 'execute',
-			code: code
+			code: token.code
 		};
 
 		this.childProcess.send(
