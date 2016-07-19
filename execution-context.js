@@ -3,6 +3,7 @@
 const ChildProcess = require('child_process');
 const EventEmitter = require('events');
 const ExecutionToken = require('./execution-token.js');
+const Serialize = require('maria-serialize');
 
 class ExecutionContext extends EventEmitter {
 	constructor(userID, channelID, serverID) {
@@ -42,7 +43,7 @@ class ExecutionContext extends EventEmitter {
 	}
 
 	__echo(m) {
-		this.currentToken.emit('echo', m.message);
+		this.currentToken.emit('echo', Serialize.unserialize(m.message));
 	}
 
 	setReady() {
