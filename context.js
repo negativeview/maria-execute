@@ -11,7 +11,7 @@ class Context {
 		process.send(
 			{
 				type: 'echo',
-				echoed: Serialize.serialize(a)
+				message: Serialize.serialize(a)
 			}
 		);
 	}

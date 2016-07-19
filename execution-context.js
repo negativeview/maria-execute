@@ -42,7 +42,7 @@ class ExecutionContext extends EventEmitter {
 	}
 
 	__echo(m) {
-		this.statusCB(m);
+		this.currentToken.emit('echo', m.message);
 	}
 
 	setReady() {
@@ -70,6 +70,7 @@ class ExecutionContext extends EventEmitter {
 	}
 
 	_execute(token) {
+		this.currentToken = token;
 		token.start();
 		var toSend = {
 			type: 'execute',
