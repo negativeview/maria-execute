@@ -34,9 +34,7 @@ class MariaExecute extends EventEmitter {
 	}
 
 	doExecution(context, code, cb) {
-		process.nextTick(() => {
-			return cb("doExecution Unimplemented");
-		});
+		context.execute(code, cb);
 	}
 
 	createContext(userID, channelID, serverID, cb) {
