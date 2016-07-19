@@ -45,11 +45,9 @@ class MariaExecute extends EventEmitter {
 		var key = (userID ? userID : '') + ':' + (channelID ? channelID : '') + ':' + (serverID ? serverID : '');
 		var context = new ExecutionContext(userID, channelID, serverID);
 		this.contexts[key] = context;
-		process.nextTick(
-			() => {
-				return cb(context.execute(code));
-			}
-		);
+		context.on('done', () => {
+			return cb(null, context);
+		});
 	}
 }
 
