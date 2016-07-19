@@ -54,7 +54,7 @@ class ExecutionContext extends EventEmitter {
 	setReady() {
 		if (this.backlog.length) {
 			var toExecute = this.backlog.shift();
-			this._execute(toExecute.code, toExecute.doneCB, toExecute.statusCB);
+			this._execute(toExecute);
 			return;
 		}
 
