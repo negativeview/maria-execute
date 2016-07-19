@@ -10,6 +10,7 @@ class ExecutionContext extends EventEmitter {
 		this.backlog = [];
 		this.doneCB = null;
 		this.statusCB = null;
+		this.timeStart = null;
 
 		this.childProcess = ChildProcess.fork(
 			'child.js',
@@ -64,12 +65,17 @@ class ExecutionContext extends EventEmitter {
 	}
 
 	_execute(code, doneCB, statusCB) {
+		this.timeStart = process.hrtime();
 		var toSend = {
 			type: 'execute',
 			code: code
 		};
 
-		this.doneCB = doneCB;
+		this.doneCB = () => {
+			var elapsed = process.hrtime(this.timeStart);
+			console.log('elapsed', elapsed);
+			doneCB();
+		};
 		this.statusCB = statusCB;
 
 		this.childProcess.send(
