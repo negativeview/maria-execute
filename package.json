@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/negativeview/maria-execute#readme",
   "dependencies": {
-    "async": "^2.0.0"
+    "async": "^2.0.0",
+    "maria-serialize": "github:negativeview/maria-serialize"
   }
 }
