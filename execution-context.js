@@ -55,32 +55,25 @@ class ExecutionContext extends EventEmitter {
 		this.emit('ready');
 	}
 
-	execute(code, doneCB, statusCB) {
+	execute(code, cb) {
+		var token = new ExecutionToken(code, cb);
+
 		if (this.ready) {
 			this.ready = false;
-			this._execute(code, doneCB, statusCB);
+			this._execute(token);
 		} else {
-			this.backlog.push({
-				code: code,
-				doneCB: doneCB,
-				statusCB: statusCB
-			});
+			this.backlog.push(token);
 		}
+
+		return token;
 	}
 
-	_execute(code, doneCB, statusCB) {
-		this.timeStart = process.hrtime();
+	_execute(token) {
+		token.start();
 		var toSend = {
 			type: 'execute',
 			code: code
 		};
-
-		this.doneCB = () => {
-			var elapsed = process.hrtime(this.timeStart);
-			console.log('elapsed', elapsed);
-			doneCB();
-		};
-		this.statusCB = statusCB;
 
 		this.childProcess.send(
 			toSend
