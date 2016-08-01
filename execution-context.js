@@ -51,7 +51,7 @@ class ExecutionContext extends EventEmitter {
 	}
 
 	__exception(m) {
-		console.log('__exception', m);
+		console.log('__exception', m, typeof(m));
 		this.currentToken.emit('exception', Serialize.unserialize(m));
 		this.childProcess.kill();
 		this.createChildProcess();
