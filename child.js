@@ -3,7 +3,7 @@ const Serialize = require('maria-serialize');
 const vm = require('vm');
 
 process.on('uncaughtException', (err) => {
-	console.log('uncaught', err);
+	console.log('uncaught', Object.keys(err));
 	process.send({
 		type: 'exception',
 		exception: Serialize.serialize(err)
