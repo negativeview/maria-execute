@@ -37,13 +37,13 @@ class ExecutionContext extends EventEmitter {
 	}
 
 	handleMessage(m) {
+		console.log('message from child', m);
 		if ('type' in m) {
 			if ('__' + m.type in this) {
 				this['__' + m.type](m);
 				return;
 			}
 		}
-		console.log('message from child', m);
 	}
 
 	__echo(m) {
@@ -51,6 +51,7 @@ class ExecutionContext extends EventEmitter {
 	}
 
 	__exception(m) {
+		console.log('__exception', m);
 		this.currentToken.emit('exception', Serialize.unseralize(m));
 		this.childProcess.kill();
 		this.createChildProcess();
