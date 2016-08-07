@@ -8,12 +8,17 @@ class Context {
 	}
 
 	echo(a) {
+		console.log('echo in context');
 		process.send(
 			{
 				type: 'echo',
 				message: Serialize.serialize(a)
 			}
 		);
+	}
+
+	toString() {
+		return 'To String Called';
 	}
 }
 
