@@ -9,6 +9,7 @@ class Context {
 
 	echo(a) {
 		console.log('echo in context');
+		console.log(a);
 		process.send(
 			{
 				type: 'echo',
