@@ -18,6 +18,10 @@ class Context {
 		);
 	}
 
+	valueOf() {
+		return 'Value of called';
+	}
+
 	toString() {
 		return 'To String Called';
 	}
