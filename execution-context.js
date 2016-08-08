@@ -20,9 +20,9 @@ class ExecutionContext extends EventEmitter {
 			{
 				type: 'set-context',
 				context: {
-					user: user.data,
-					channel: channel.data,
-					server: server.data
+					user: user ? user.data : {},
+					channel: channel ? channel.data : {},
+					server: server ? server.data : {}
 				}
 			}
 		);
