@@ -16,6 +16,17 @@ class ExecutionContext extends EventEmitter {
 
 		this.createChildProcess();
 
+		this.childProcess.send(
+			{
+				type: 'set-context',
+				context: {
+					user: user.data,
+					channel: channel.data,
+					server: server.data
+				}
+			}
+		);
+
 		process.nextTick(() => {
 			this.emit('done');
 			this.setReady();

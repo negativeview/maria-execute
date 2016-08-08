@@ -11,6 +11,10 @@ process.on('uncaughtException', (err) => {
 
 process.on('message', (m) => {
 	switch (m.type) {
+		case 'set-context':
+			console.log('set-context', m);
+			setContext(m.context);
+			break;
 		case 'execute':
 			execute(m.code);
 			break;
@@ -20,9 +24,13 @@ process.on('message', (m) => {
 	}
 });
 
-function execute(code) {
-	var context = new Context();
+var context;
+function setContext(c) {
+	context = new Context(c);
 	context = vm.createContext(context);
+}
+
+function execute(code) {
 	var script = new vm.Script(code);
 	script.runInContext(
 		context,
