@@ -8,6 +8,12 @@ class ExecutionToken extends EventEmitter {
 		this.code = code;
 		this.cb = cb;
 		this.timeStart = null;
+		this.executionTime = null;
+	}
+
+	done() {
+		this.executionTime = process.hrtime(this.timeStart);
+		this.emit('done');
 	}
 
 	start() {

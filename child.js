@@ -24,7 +24,6 @@ function execute(code) {
 	var context = new Context();
 	context = vm.createContext(context);
 	var script = new vm.Script(code);
-	console.log('executing', code);
 	script.runInContext(
 		context,
 		{

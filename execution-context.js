@@ -6,7 +6,7 @@ const ExecutionToken = require('./execution-token.js');
 const Serialize = require('maria-serialize');
 
 class ExecutionContext extends EventEmitter {
-	constructor(userID, channelID, serverID) {
+	constructor(user, channel, server) {
 		super();
 		this.ready = false;
 		this.backlog = [];
@@ -61,7 +61,7 @@ class ExecutionContext extends EventEmitter {
 	}
 
 	__done(m) {
-		this.currentToken.emit('done');
+		this.currentToken.done();
 		this.setReady();
 	}
 

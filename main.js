@@ -9,17 +9,21 @@ class MariaExecute extends EventEmitter {
 		this.contexts = {};
 	}
 
+	_getKey(user, channel, server) {
+		return (user ? user.discordID : '') + ':' + (channel ? channel.discordID : '') + ':' + (server ? server.discordID : '');
+	}
+
 	/**
 	 * The main function. Given a userID, channelID, and serverID, execute the
 	 * given code and callback with any errors or results from said execution.
 	 **/
-	execute(userID, channelID, serverID, code, cb) {
-		var key = (userID ? userID : '') + ':' + (channelID ? channelID : '') + ':' + (serverID ? serverID : '');
+	execute(user, channel, server, code, cb) {
+		var key = this._getKey(user, channel, server);
 		if (key in this.contexts) {
 			this.doExecution(this.contexts[key], code, cb);
 		} else {
 			this.createContext(
-				userID, channelID, serverID, (error, context) => {
+				user, channel, server, (error, context) => {
 					if (error) {
 						process.nextTick(() => {
 							return cb(error);
@@ -41,9 +45,9 @@ class MariaExecute extends EventEmitter {
 		);
 	}
 
-	createContext(userID, channelID, serverID, cb) {
-		var key = (userID ? userID : '') + ':' + (channelID ? channelID : '') + ':' + (serverID ? serverID : '');
-		var context = new ExecutionContext(userID, channelID, serverID);
+	createContext(user, channel, server, cb) {
+		var key = this._getKey(user, channel, server);
+		var context = new ExecutionContext(user, channel, server);
 		this.contexts[key] = context;
 		context.on('done', () => {
 			return cb(null, context);
